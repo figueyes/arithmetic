@@ -1,10 +1,12 @@
 package main
 
-import "code/go/testing/arithmetic/letters"
+import "code/go/testing/arithmetic/concurrency"
 
 func main() {
-	println(letters.Decode("Y1e1s1"))
-	println(letters.Decode("n1o4"))
-	println(letters.Decode("O1o3"))
-	println(letters.Decode("y1e3s1"))
+	//rand.Seed(time.Now().UnixNano())
+	//
+	//a, b := concurrency.LongTimeRequest(), concurrency.LongTimeRequest()
+	//fmt.Println(concurrency.SumSquares(<-a, <-b))
+
+	concurrency.GoRoutine()
 }

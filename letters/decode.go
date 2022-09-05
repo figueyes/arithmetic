@@ -26,22 +26,31 @@ import (
 //"y1e3s1" => “yeees”
 //"Yuppy" => “Y1u1p2y1”
 
-func Decode(input string) (res string) {
+func Decode(input string) (res string, err error) {
 	l := len(input)
 
-	for i := 0; i < l; i += 2 {
-		res = fmt.Sprintf("%s%s", res, replaceNumberWithChar(string([]rune(input)[i]), string([]rune(input)[i+1])))
+	mod := l % 2
+	if mod != 0 {
+		return "", fmt.Errorf("input has an odd length")
 	}
-	return res
+
+	for i := 0; i < l; i += 2 {
+		r, err := replaceNumberWithChar(string([]rune(input)[i]), string([]rune(input)[i+1]))
+		if err != nil {
+			return "", err
+		}
+		res = fmt.Sprintf("%s%s", res, r)
+	}
+	return res, nil
 }
 
-func replaceNumberWithChar(char, numberString string) (res string) {
+func replaceNumberWithChar(char, numberString string) (res string, err error) {
 	n, err := strconv.Atoi(numberString)
 	if err != nil {
-		panic("wooo")
+		return "", fmt.Errorf("error trying to parse integer")
 	}
 	for i := 0; i < n; i++ {
 		res = fmt.Sprintf("%s%s", res, char)
 	}
-	return res
+	return res, nil
 }

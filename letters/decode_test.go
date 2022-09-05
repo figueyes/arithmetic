@@ -1,37 +1,49 @@
 package letters
 
 import (
+	"errors"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )
 
 func TestDecode(t *testing.T) {
 	testCases := []struct {
-		Input    string
-		Expected string
+		input       string
+		expected    string
+		errExpected error
 	}{
 		{
-			Input:    "Y1e1s1",
-			Expected: "Yes",
+			input:       "Y1e1s1",
+			expected:    "Yes",
+			errExpected: nil,
 		},
 		{
-			Input:    "n1o4",
-			Expected: "noooo",
+			input:       "n1o4",
+			expected:    "noooo",
+			errExpected: nil,
 		},
 		{
-			Input:    "O1o3",
-			Expected: "Oooo",
+			input:       "O1o3",
+			expected:    "Oooo",
+			errExpected: nil,
 		},
 		{
-			Input:    "y1e3s1",
-			Expected: "yeees",
+			input:       "y1e3s1",
+			expected:    "yeees",
+			errExpected: nil,
+		},
+		{
+			input:       "a1l1e1x",
+			expected:    "",
+			errExpected: errors.New("input has an odd length"),
 		},
 	}
 
 	t.Run("Decode Test", func(it *testing.T) {
 		for _, tc := range testCases {
-			res := Decode(tc.Input)
-			assert.Equal(it, tc.Expected, res)
+			res, err := Decode(tc.input)
+			assert.Equal(it, tc.errExpected, err)
+			assert.Equal(it, tc.expected, res)
 		}
 	})
 }
